@@ -1,0 +1,107 @@
+{
+  "packing/claude-1.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 6,
+    "invalid": 0,
+    "via": "tripdata"
+  },
+  "packing/chatgpt-1.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 4,
+    "invalid": 0,
+    "via": "code-block"
+  },
+  "packing/gemini-1.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 3,
+    "invalid": 0,
+    "via": "tripdata"
+  },
+  "tasks/claude-1.md": {
+    "expect": "tasks",
+    "ok": true,
+    "count": 5,
+    "invalid": 0
+  },
+  "tasks/chatgpt-1.md": {
+    "expect": "tasks",
+    "ok": true,
+    "count": 3,
+    "invalid": 0
+  },
+  "tasks/gemini-1.md": {
+    "expect": "tasks",
+    "ok": true,
+    "count": 2,
+    "invalid": 0,
+    "via": "code-block"
+  },
+  "messy/smart-quotes.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 2
+  },
+  "messy/unclosed-fence.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 2
+  },
+  "messy/wrapper-object.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 2,
+    "via": "inline"
+  },
+  "messy/bare-array.md": {
+    "expect": "tasks",
+    "ok": true,
+    "count": 2
+  },
+  "messy/geresh-in-values.md": {
+    "expect": "packing",
+    "ok": true,
+    "count": 2
+  },
+  "fail/no-block.md": {
+    "expect": "packing",
+    "ok": false,
+    "reason": "no_data"
+  },
+  "fail/broken-json.md": {
+    "expect": "packing",
+    "ok": false,
+    "reason": "bad_json"
+  },
+  "fail/places-kind.md": {
+    "expect": "packing",
+    "ok": false,
+    "reason": "unsupported_kind"
+  },
+  "fail/empty-items.md": {
+    "expect": "tasks",
+    "ok": false,
+    "reason": "no_items"
+  },
+  "places/claude-1.md": {
+    "expect": "places",
+    "ok": true,
+    "count": 4,
+    "invalid": 0,
+    "via": "tripdata"
+  },
+  "places/chatgpt-bare.md": {
+    "expect": "places",
+    "ok": true,
+    "count": 2
+  },
+  "itinerary/claude-1.md": {
+    "expect": "itinerary",
+    "ok": true,
+    "count": 5,
+    "invalid": 0,
+    "via": "tripdata"
+  }
+}

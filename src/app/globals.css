@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+/* Dark mode follows the OS unless the user picked a theme in /me
+   (stored as <html data-theme="light|dark">). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------------------------------------------------------------------------
+   Design direction D (approved 2026-11-17): the trip as a printed ticket.
+   - Paper + dark ink, sharp corners, 2px ink rules and dashed perforations.
+   - Display type: Karantina (big condensed Hebrew), with a slight
+     "misregistered print" offset in the trip's color.
+   - Body/UI: Heebo, high contrast, big touch targets.
+   - Color comes from the trip (--trip); the base stays ink on paper.
+   --------------------------------------------------------------------------- */
+:root {
+  --paper: #f4f0e8;        /* page */
+  --surface: #fffcf6;      /* tickets, inputs, sheets */
+  --surface-2: #ebe6db;    /* pressed / subtle fill */
+  --ink: #1c1b19;          /* text, rules, primary buttons */
+  --ink-2: #57534c;        /* secondary text (6.3:1 on paper) */
+  --ink-3: #6e695f;        /* muted / done (4.6:1 on paper) */
+  --hair: #d6d0c4;         /* hairline row separators */
+  --on-ink: #f4f0e8;       /* text on ink */
+  --danger: #b3261e;
+  --ok: #1f6b52;
+  --focus: #2b4fa3;
+  --trip: #b8322a;         /* overridden per trip */
+  --trip-ink: var(--trip); /* trip color used as text */
+  --trip-tint: color-mix(in srgb, var(--trip) 35%, transparent);
+  /* One accent per list, so tasks / packing / purchases / notes read apart. */
+  --c-tasks: #2b4fa3;
+  --c-packing: #1f6b52;
+  --c-purchases: #7a3fa0;
+  --c-notes: #b0571a;
+  --c-journal: #8a6a00;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Night, not black (feedback 2026-11-18): deep blue-slate, warmed by the trip color. */
+    --night: #1d2232;
+    --paper: color-mix(in srgb, var(--trip) 9%, var(--night));
+    --surface: color-mix(in srgb, var(--trip) 7%, #283048);
+    --surface-2: color-mix(in srgb, var(--trip) 6%, #333c58);
+    --ink: #f3efe7;
+    --ink-2: #c3c4d2;
+    --ink-3: #9da0b4;
+    --hair: #434b66;
+    --on-ink: #1d2232;
+    --danger: #ff8a80;
+    --ok: #74d6a6;
+    --focus: #9db8ff;
+    --trip-ink: color-mix(in srgb, var(--trip) 50%, white);
+    --trip-tint: color-mix(in srgb, var(--trip) 70%, transparent);
+    --c-tasks: #8fb0ff;
+    --c-packing: #74d6a6;
+    --c-purchases: #d4a5f2;
+    --c-notes: #ffb37a;
+    --c-journal: #f5d36b;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --night: #1d2232;
+  --paper: color-mix(in srgb, var(--trip) 9%, var(--night));
+  --surface: color-mix(in srgb, var(--trip) 7%, #283048);
+  --surface-2: color-mix(in srgb, var(--trip) 6%, #333c58);
+  --ink: #f3efe7;
+  --ink-2: #c3c4d2;
+  --ink-3: #9da0b4;
+  --hair: #434b66;
+  --on-ink: #1d2232;
+  --danger: #ff8a80;
+  --ok: #74d6a6;
+  --focus: #9db8ff;
+  --trip-ink: color-mix(in srgb, var(--trip) 50%, white);
+  --trip-tint: color-mix(in srgb, var(--trip) 70%, transparent);
+  --c-tasks: #8fb0ff;
+  --c-packing: #74d6a6;
+  --c-purchases: #d4a5f2;
+  --c-notes: #ffb37a;
+  --c-journal: #f5d36b;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-hair: var(--hair);
+  --color-on-ink: var(--on-ink);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --color-focus: var(--focus);
+  --color-trip: var(--trip);
+  --color-trip-ink: var(--trip-ink);
+  --color-trip-tint: var(--trip-tint);
+  --color-c-tasks: var(--c-tasks);
+  --color-c-packing: var(--c-packing);
+  --color-c-purchases: var(--c-purchases);
+  --color-c-notes: var(--c-notes);
+  --color-c-journal: var(--c-journal);
+  --font-sans: var(--font-heebo), system-ui, sans-serif;
+  --font-display: var(--font-karantina), var(--font-heebo), sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-heebo), system-ui, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Anything that sets its own --trip (a trip card, the trip shell) re-derives the
+   trip text color and tint from it; otherwise they'd keep the :root default. */
+[style*="--trip"] {
+  --trip-ink: var(--trip);
+  --trip-tint: color-mix(in srgb, var(--trip) 35%, transparent);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [style*="--trip"] {
+    --trip-ink: color-mix(in srgb, var(--trip) 50%, white);
+    --trip-tint: color-mix(in srgb, var(--trip) 70%, transparent);
+    --paper: color-mix(in srgb, var(--trip) 9%, var(--night));
+    --surface: color-mix(in srgb, var(--trip) 7%, #283048);
+    --surface-2: color-mix(in srgb, var(--trip) 6%, #333c58);
+  }
+}
+:root[data-theme="dark"] [style*="--trip"] {
+  --trip-ink: color-mix(in srgb, var(--trip) 50%, white);
+  --trip-tint: color-mix(in srgb, var(--trip) 70%, transparent);
+  --paper: color-mix(in srgb, var(--trip) 9%, var(--night));
+  --surface: color-mix(in srgb, var(--trip) 7%, #283048);
+  --surface-2: color-mix(in srgb, var(--trip) 6%, #333c58);
+}
+
+/* Big condensed display type with a slight misregistered-print offset. */
+.display {
+  /* @theme inline values aren't emitted as CSS variables, so use the font vars directly. */
+  font-family: var(--font-karantina), var(--font-heebo), sans-serif;
+  font-weight: 700;
+  line-height: 0.85;
+}
+.print-offset {
+  text-shadow: 3px 3px 0 var(--trip-tint);
+}
+
+/* Halftone dots in the trip color (decoration only). */
+.halftone {
+  background-image: radial-gradient(var(--trip) 1.5px, transparent 1.7px);
+  background-size: 7px 7px;
+}
+
+/* Safe areas for the installed PWA (notch / home indicator). */
+.pt-safe { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Printing (the trip guide → paper or PDF): always the light palette, no app chrome. */
+@media print {
+  :root:root,
+  :root:root [style*="--trip"] {
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f1ede4;
+    --ink: #1c1b19;
+    --ink-2: #4a463f;
+    --ink-3: #6e695f;
+    --hair: #d6d0c4;
+    --on-ink: #ffffff;
+    --trip-ink: var(--trip);
+    --trip-tint: color-mix(in srgb, var(--trip) 35%, transparent);
+  }
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    break-before: page;
+  }
+  .print-keep {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 14mm 12mm;
+  }
+}
